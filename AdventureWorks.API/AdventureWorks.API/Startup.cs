@@ -23,7 +23,6 @@ namespace AdventureWorks.API
 		{
 			services.AddControllers();
 			services.AddDbContext<ProductContext>(options => options.UseSqlServer(BuildConnectionString()));
-
 		}
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
