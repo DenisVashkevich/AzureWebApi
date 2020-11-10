@@ -8,8 +8,6 @@ namespace AdventureWorks.DbModel.Models
         public ProductModel()
         {
             Product = new HashSet<Product>();
-            ProductModelIllustration = new HashSet<ProductModelIllustration>();
-            ProductModelProductDescriptionCulture = new HashSet<ProductModelProductDescriptionCulture>();
         }
 
         public int ProductModelId { get; set; }
@@ -20,7 +18,5 @@ namespace AdventureWorks.DbModel.Models
         public DateTime ModifiedDate { get; set; }
 
         public virtual ICollection<Product> Product { get; set; }
-        public virtual ICollection<ProductModelIllustration> ProductModelIllustration { get; set; }
-        public virtual ICollection<ProductModelProductDescriptionCulture> ProductModelProductDescriptionCulture { get; set; }
     }
 }

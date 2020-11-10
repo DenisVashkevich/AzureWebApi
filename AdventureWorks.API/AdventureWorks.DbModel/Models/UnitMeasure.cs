@@ -7,7 +7,6 @@ namespace AdventureWorks.DbModel.Models
     {
         public UnitMeasure()
         {
-            BillOfMaterials = new HashSet<BillOfMaterials>();
             ProductSizeUnitMeasureCodeNavigation = new HashSet<Product>();
             ProductWeightUnitMeasureCodeNavigation = new HashSet<Product>();
         }
@@ -16,7 +15,6 @@ namespace AdventureWorks.DbModel.Models
         public string Name { get; set; }
         public DateTime ModifiedDate { get; set; }
 
-        public virtual ICollection<BillOfMaterials> BillOfMaterials { get; set; }
         public virtual ICollection<Product> ProductSizeUnitMeasureCodeNavigation { get; set; }
         public virtual ICollection<Product> ProductWeightUnitMeasureCodeNavigation { get; set; }
     }

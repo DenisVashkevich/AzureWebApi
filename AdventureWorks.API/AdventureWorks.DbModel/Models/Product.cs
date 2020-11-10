@@ -5,19 +5,6 @@ namespace AdventureWorks.DbModel.Models
 {
     public partial class Product
     {
-        public Product()
-        {
-            BillOfMaterialsComponent = new HashSet<BillOfMaterials>();
-            BillOfMaterialsProductAssembly = new HashSet<BillOfMaterials>();
-            ProductCostHistory = new HashSet<ProductCostHistory>();
-            ProductInventory = new HashSet<ProductInventory>();
-            ProductListPriceHistory = new HashSet<ProductListPriceHistory>();
-            ProductProductPhoto = new HashSet<ProductProductPhoto>();
-            ProductReview = new HashSet<ProductReview>();
-            TransactionHistory = new HashSet<TransactionHistory>();
-            WorkOrder = new HashSet<WorkOrder>();
-        }
-
         public int ProductId { get; set; }
         public string Name { get; set; }
         public string ProductNumber { get; set; }
@@ -48,14 +35,5 @@ namespace AdventureWorks.DbModel.Models
         public virtual ProductSubcategory ProductSubcategory { get; set; }
         public virtual UnitMeasure SizeUnitMeasureCodeNavigation { get; set; }
         public virtual UnitMeasure WeightUnitMeasureCodeNavigation { get; set; }
-        public virtual ICollection<BillOfMaterials> BillOfMaterialsComponent { get; set; }
-        public virtual ICollection<BillOfMaterials> BillOfMaterialsProductAssembly { get; set; }
-        public virtual ICollection<ProductCostHistory> ProductCostHistory { get; set; }
-        public virtual ICollection<ProductInventory> ProductInventory { get; set; }
-        public virtual ICollection<ProductListPriceHistory> ProductListPriceHistory { get; set; }
-        public virtual ICollection<ProductProductPhoto> ProductProductPhoto { get; set; }
-        public virtual ICollection<ProductReview> ProductReview { get; set; }
-        public virtual ICollection<TransactionHistory> TransactionHistory { get; set; }
-        public virtual ICollection<WorkOrder> WorkOrder { get; set; }
     }
 }
