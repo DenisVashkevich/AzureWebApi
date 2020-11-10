@@ -30,7 +30,7 @@ namespace AdventureWorks.API
 			}
 			finally
 			{
-				Log.CloseAndFlush()
+				Log.CloseAndFlush();
 			}
 		}
 
