@@ -3,7 +3,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
+using AdventureWorks.DbModel.Context;
 using Serilog;
+using Microsoft.Data.SqlClient;
 
 namespace AdventureWorks.API
 {
@@ -16,13 +19,13 @@ namespace AdventureWorks.API
 
 		public IConfiguration Configuration { get; }
 
-		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddControllers();
+			services.AddDbContext<ProductContext>(options => options.UseSqlServer(BuildConnectionString()));
+
 		}
 
-		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
 			if (env.IsDevelopment())
@@ -33,12 +36,19 @@ namespace AdventureWorks.API
 			app.UseSerilogRequestLogging();
 			app.UseRouting();
 
-			app.UseAuthorization();
-
 			app.UseEndpoints(endpoints =>
 			{
 				endpoints.MapControllers();
 			});
 		}
+
+		private string BuildConnectionString()
+        {
+			var builder = new SqlConnectionStringBuilder(Configuration.GetConnectionString("Entities"));
+			builder.Password = Configuration["DbPassword"];
+			builder.UserID = Configuration["DbUserId"];
+			return builder.ConnectionString;
+		}
 	}
+
 }

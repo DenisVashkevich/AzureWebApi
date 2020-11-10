@@ -20,14 +20,6 @@ namespace AdventureWorks.DbModel.Context
         public virtual DbSet<ProductSubcategory> ProductSubcategory { get; set; }
         public virtual DbSet<UnitMeasure> UnitMeasure { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer("Data Source=52.170.185.78;Initial Catalog=AdventureWorks;Persist Security Info=True;User ID=webapp;Password=admin12345!;MultipleActiveResultSets=True;Application Name=EntityFramework");
-            }
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Product>(entity =>
