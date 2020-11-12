@@ -40,13 +40,17 @@ namespace AdventureWorks.API
 				app.UseDeveloperExceptionPage();
             }
 
+			app.UseExceptionHandler("/Error");
 			
 			app.UseSerilogRequestLogging();
 			app.UseRouting();
+			app.UseCors();
 
 			app.UseEndpoints(endpoints =>
 			{
-				endpoints.MapControllers();
+				endpoints.MapControllerRoute(
+						name: "default",
+						pattern: "{controller=Product}/{action=GetProducts}/{id?}");
 			});
 
 			app.UseSwagger();

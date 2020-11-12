@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using AdventureWorks.DbModel.Interfaces;
 using AdventureWorks.DbModel.Models;
-using Newtonsoft.Json;
 namespace AdventureWorks.API.Controllers
 {
     [Route("api/[controller]")]
