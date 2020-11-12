@@ -5,8 +5,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using AdventureWorks.DbModel.Context;
+using AdventureWorks.DbModel.Services;
+using AdventureWorks.DbModel.Interfaces;
 using Serilog;
 using Microsoft.Data.SqlClient;
+using Microsoft.OpenApi.Models;
 
 namespace AdventureWorks.API
 {
@@ -22,7 +25,12 @@ namespace AdventureWorks.API
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddControllers();
+			services.AddSwaggerGen(c =>
+			{
+				c.SwaggerDoc("v1", new OpenApiInfo { Title = "Api", Version = "v1" });
+			});
 			services.AddDbContext<ProductContext>(options => options.UseSqlServer(BuildConnectionString()));
+			services.AddScoped<IProductService, ProductService>();
 		}
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -39,6 +47,14 @@ namespace AdventureWorks.API
 			{
 				endpoints.MapControllers();
 			});
+
+			app.UseSwagger();
+
+			app.UseSwaggerUI(c =>
+			{
+				c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+			});
+
 		}
 
 		private string BuildConnectionString()
@@ -49,5 +65,4 @@ namespace AdventureWorks.API
 			return builder.ConnectionString;
 		}
 	}
-
 }

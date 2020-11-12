@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace AdventureWorks.DbModel.Models
 {
-    public partial class ProductModel
+    public class ProductModelDbModel
     {
-        public ProductModel()
+        public ProductModelDbModel()
         {
-            Product = new HashSet<Product>();
+            Product = new HashSet<ProductDbModel>();
         }
 
         public int ProductModelId { get; set; }
@@ -17,6 +17,6 @@ namespace AdventureWorks.DbModel.Models
         public Guid Rowguid { get; set; }
         public DateTime ModifiedDate { get; set; }
 
-        public virtual ICollection<Product> Product { get; set; }
+        public virtual ICollection<ProductDbModel> Product { get; set; }
     }
 }

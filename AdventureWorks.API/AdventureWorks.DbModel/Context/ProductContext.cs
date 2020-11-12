@@ -3,7 +3,7 @@ using AdventureWorks.DbModel.Models;
 
 namespace AdventureWorks.DbModel.Context
 {
-    public partial class ProductContext : DbContext
+    public class ProductContext : DbContext
     {
         public ProductContext()
         {
@@ -14,16 +14,19 @@ namespace AdventureWorks.DbModel.Context
         {
         }
 
-        public virtual DbSet<Product> Product { get; set; }
-        public virtual DbSet<ProductCategory> ProductCategory { get; set; }
-        public virtual DbSet<ProductModel> ProductModel { get; set; }
-        public virtual DbSet<ProductSubcategory> ProductSubcategory { get; set; }
-        public virtual DbSet<UnitMeasure> UnitMeasure { get; set; }
+        public DbSet<ProductDbModel> Product { get; set; }
+        public DbSet<ProductCategoryDbModel> ProductCategory { get; set; }
+        public DbSet<ProductDbModel> ProductModel { get; set; }
+        public DbSet<ProductSubcategoryDbModel> ProductSubcategory { get; set; }
+        public DbSet<UnitMeasureDbModel> UnitMeasure { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Product>(entity =>
+            modelBuilder.Entity<ProductDbModel>(entity =>
             {
+                entity.HasKey(e => e.ProductId)
+                      .HasName("PK_Product_ProductID");
+
                 entity.ToTable("Product", "Production");
 
                 entity.HasComment("Products sold or used in the manfacturing of sold products.");
@@ -162,8 +165,11 @@ namespace AdventureWorks.DbModel.Context
                     .HasForeignKey(d => d.WeightUnitMeasureCode);
             });
 
-            modelBuilder.Entity<ProductCategory>(entity =>
+            modelBuilder.Entity<ProductCategoryDbModel>(entity =>
             {
+                entity.HasKey(e => e.ProductCategoryId)
+                     .HasName("PK_ProductCategory_ProductCategoryID");
+
                 entity.ToTable("ProductCategory", "Production");
 
                 entity.HasComment("High-level product categorization.");
@@ -196,8 +202,11 @@ namespace AdventureWorks.DbModel.Context
                     .HasComment("ROWGUIDCOL number uniquely identifying the record. Used to support a merge replication sample.");
             });
 
-            modelBuilder.Entity<ProductModel>(entity =>
+            modelBuilder.Entity<ProductModelDbModel>(entity =>
             {
+                entity.HasKey(e => e.ProductModelId)
+                     .HasName("PK_ProductModel_ProductModelID");
+
                 entity.ToTable("ProductModel", "Production");
 
                 entity.HasComment("Product model classification.");
@@ -244,8 +253,11 @@ namespace AdventureWorks.DbModel.Context
                     .HasComment("ROWGUIDCOL number uniquely identifying the record. Used to support a merge replication sample.");
             });
 
-            modelBuilder.Entity<ProductSubcategory>(entity =>
+            modelBuilder.Entity<ProductSubcategoryDbModel>(entity =>
             {
+                entity.HasKey(e => e.ProductSubcategoryId)
+                      .HasName("PK_ProductSubcategory_ProductSubcategoryID");
+
                 entity.ToTable("ProductSubcategory", "Production");
 
                 entity.HasComment("Product subcategories. See ProductCategory table.");
@@ -287,7 +299,7 @@ namespace AdventureWorks.DbModel.Context
                     .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
-            modelBuilder.Entity<UnitMeasure>(entity =>
+            modelBuilder.Entity<UnitMeasureDbModel>(entity =>
             {
                 entity.HasKey(e => e.UnitMeasureCode)
                     .HasName("PK_UnitMeasure_UnitMeasureCode");
@@ -316,9 +328,6 @@ namespace AdventureWorks.DbModel.Context
                     .HasComment("Unit of measure description.");
             });
 
-            OnModelCreatingPartial(modelBuilder);
         }
-
-        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }

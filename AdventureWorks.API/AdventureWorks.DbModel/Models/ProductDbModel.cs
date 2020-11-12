@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace AdventureWorks.DbModel.Models
 {
-    public partial class Product
+    public class ProductDbModel
     {
         public int ProductId { get; set; }
         public string Name { get; set; }
@@ -31,9 +30,9 @@ namespace AdventureWorks.DbModel.Models
         public Guid Rowguid { get; set; }
         public DateTime ModifiedDate { get; set; }
 
-        public virtual ProductModel ProductModel { get; set; }
-        public virtual ProductSubcategory ProductSubcategory { get; set; }
-        public virtual UnitMeasure SizeUnitMeasureCodeNavigation { get; set; }
-        public virtual UnitMeasure WeightUnitMeasureCodeNavigation { get; set; }
+        public virtual ProductModelDbModel ProductModel { get; set; }
+        public virtual ProductSubcategoryDbModel ProductSubcategory { get; set; }
+        public virtual UnitMeasureDbModel SizeUnitMeasureCodeNavigation { get; set; }
+        public virtual UnitMeasureDbModel WeightUnitMeasureCodeNavigation { get; set; }
     }
 }
