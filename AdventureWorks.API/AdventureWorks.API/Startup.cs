@@ -60,8 +60,8 @@ namespace AdventureWorks.API
 		private string BuildConnectionString()
         {
 			var builder = new SqlConnectionStringBuilder(Configuration.GetConnectionString("Entities"));
-			builder.Password = Configuration["DbPassword"];
-			builder.UserID = Configuration["DbUserId"];
+			//builder.Password = Configuration["DbPassword"];
+			//builder.UserID = Configuration["DbUserId"];
 			return builder.ConnectionString;
 		}
 	}
