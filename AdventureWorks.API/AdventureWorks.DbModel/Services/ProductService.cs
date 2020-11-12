@@ -22,7 +22,9 @@ namespace AdventureWorks.DbModel.Services
             var predicate = PredicateBuilder.False<ProductDbModel>();
 
             foreach (string keyword in keywords)
+            {
                 predicate = predicate.Or(p => p.Name.Contains(keyword));
+            }
 
             return _dbcontext.Product.Where(predicate);
         }

@@ -1,17 +1,25 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using AdventureWorks.DbModel.Models;
+using Microsoft.Extensions.Logging;
 
 namespace AdventureWorks.DbModel.Context
 {
     public class ProductContext : DbContext
     {
+        private readonly ILoggerFactory _loggerFactory;
         public ProductContext()
         {
         }
 
-        public ProductContext(DbContextOptions<ProductContext> options)
+        public ProductContext(DbContextOptions<ProductContext> options, ILoggerFactory loggerFactory)
             : base(options)
         {
+            _loggerFactory = loggerFactory;
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseLoggerFactory(_loggerFactory);
         }
 
         public DbSet<ProductDbModel> Product { get; set; }

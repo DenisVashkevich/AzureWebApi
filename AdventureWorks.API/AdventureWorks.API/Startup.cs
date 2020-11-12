@@ -8,8 +8,8 @@ using AdventureWorks.DbModel.Context;
 using AdventureWorks.DbModel.Services;
 using AdventureWorks.DbModel.Interfaces;
 using Serilog;
-using Microsoft.Data.SqlClient;
 using Microsoft.OpenApi.Models;
+using Microsoft.Extensions.Logging;
 
 namespace AdventureWorks.API
 {
@@ -29,7 +29,7 @@ namespace AdventureWorks.API
 			{
 				c.SwaggerDoc("v1", new OpenApiInfo { Title = "Api", Version = "v1" });
 			});
-			services.AddDbContext<ProductContext>(options => options.UseSqlServer(BuildConnectionString()));
+			services.AddDbContext<ProductContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Entities")));
 			services.AddScoped<IProductService, ProductService>();
 		}
 
@@ -38,8 +38,9 @@ namespace AdventureWorks.API
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
-			}
+            }
 
+			
 			app.UseSerilogRequestLogging();
 			app.UseRouting();
 
@@ -55,14 +56,6 @@ namespace AdventureWorks.API
 				c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
 			});
 
-		}
-
-		private string BuildConnectionString()
-        {
-			var builder = new SqlConnectionStringBuilder(Configuration.GetConnectionString("Entities"));
-			//builder.Password = Configuration["DbPassword"];
-			//builder.UserID = Configuration["DbUserId"];
-			return builder.ConnectionString;
 		}
 	}
 }
