@@ -21,9 +21,6 @@ namespace AdventureWorks.API
 				.WriteTo.File("log.txt", rollingInterval: RollingInterval.Day)
 				.CreateLogger();
 
-			var file = File.CreateText("selflog.txt");
-			Serilog.Debugging.SelfLog.Enable(TextWriter.Synchronized(file));
-
 			try
 			{
 				Log.Information("Application started !!!!!!!!!!!!!");
