@@ -15,7 +15,7 @@ namespace AdventureWorks.DbModel.Context
         public ProductContext(DbContextOptions<ProductContext> options, ILoggerFactory loggerFactory)
             : base(options)
         {
-            Log.Information("DB context constructor !!!!!!!!!!!!!");
+            Log.Information(options.Extensions)
             _loggerFactory = loggerFactory;
         }
 

@@ -9,7 +9,14 @@ using AdventureWorks.DbModel.Services;
 using AdventureWorks.DbModel.Interfaces;
 using Serilog;
 using Microsoft.OpenApi.Models;
-using Microsoft.Extensions.Logging;
+using Microsoft.ApplicationInsights.Extensibility;
+using Microsoft.ApplicationInsights.Channel;
+using Serilog.Configuration;
+using Serilog.Settings.Configuration;
+using Serilog.Settings;
+using Serilog.Sinks.ApplicationInsights;
+using Microsoft.ApplicationInsights;
+using System;
 
 namespace AdventureWorks.API
 {
@@ -22,7 +29,8 @@ namespace AdventureWorks.API
 
 		public IConfiguration Configuration { get; }
 
-		public void ConfigureServices(IServiceCollection services)
+
+        public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddControllers();
 			services.AddSwaggerGen(c =>
@@ -41,7 +49,6 @@ namespace AdventureWorks.API
             }
 
 			app.UseExceptionHandler("/Error");
-			
 			app.UseSerilogRequestLogging();
 			app.UseRouting();
 			app.UseCors(options =>
@@ -50,14 +57,11 @@ namespace AdventureWorks.API
 				options.AllowAnyMethod();
 				options.AllowAnyOrigin();
 			});
-
 			app.UseEndpoints(options =>
 			{
 				options.MapControllers();
 			});
-
 			app.UseSwagger();
-
 			app.UseSwaggerUI(c =>
 			{
 				c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");

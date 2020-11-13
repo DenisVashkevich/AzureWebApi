@@ -5,6 +5,7 @@ using AdventureWorks.DbModel.Context;
 using System.Linq;
 using AdventureWorks.DbModel.Utils;
 using Serilog;
+using System;
 
 namespace AdventureWorks.DbModel.Services
 {
@@ -14,7 +15,7 @@ namespace AdventureWorks.DbModel.Services
 
         public ProductService(ProductContext context)
         {
-            Log.Information("Product service constructor !!!!!!!!!!!!!");
+            Log.Information("Production service constructor.");
             _dbcontext = context;
         }
 
@@ -32,6 +33,7 @@ namespace AdventureWorks.DbModel.Services
 
         public ProductDbModel GetProductById(int id)
         {
+            Log.Information($"Product id={id} found.");
             return _dbcontext.Product.FirstOrDefault(p => p.ProductId == id);
         }
 
@@ -45,12 +47,11 @@ namespace AdventureWorks.DbModel.Services
             {
                 Log.Error(ex, $"Product id={product.ProductId} creation failed.");
             }
-            
         }
 
         public List<ProductDbModel> GetAllProducts()
         {
-            Log.Information("Get all products !!!!!!!!!!!!!");
+            Log.Information("Now you have everything!");
 
             return _dbcontext.Product.ToList();
         }
@@ -65,13 +66,31 @@ namespace AdventureWorks.DbModel.Services
                 _dbcontext.Product.Update(product);
                 _dbcontext.SaveChanges();
             }
+            else
+            {
+                Log.Warning("No product found in database.");
+            }
         }
 
         void IProductService.DeleteProduct(int id)
         {
             var item = _dbcontext.Product.Find(id);
-            _dbcontext.Product.Remove(item);
-            _dbcontext.SaveChanges();
+
+            if(item == null)
+            {
+                Log.Warning("No product found in database, delete failed.");
+                return;
+            }
+
+            try
+            {
+                _dbcontext.Product.Remove(item);
+                _dbcontext.SaveChanges();
+            }
+            catch(Exception ex)
+            {
+                Log.Error(ex.Message);
+            }
         }
     }
 }

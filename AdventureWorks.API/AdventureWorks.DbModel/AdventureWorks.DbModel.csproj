@@ -19,6 +19,8 @@
     <PackageReference Include="Serilog.Sinks.ApplicationInsights" Version="3.1.0" />
     <PackageReference Include="Serilog.Sinks.AzureApp" Version="2.1.2" />
     <PackageReference Include="Serilog.Extensions.Hosting" Version="3.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.ApplicationInsights" Version="2.16.0" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.16.0" />
   </ItemGroup>
 
   <ItemGroup>

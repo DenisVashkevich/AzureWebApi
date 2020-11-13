@@ -14,8 +14,6 @@ namespace AdventureWorks.API.Controllers
 
         public ProductController(IProductService productService)
         {
-            Log.Information("Controlle constructorr !!!!!!!!!!!!!");
-
             _productService = productService;
         }
 
