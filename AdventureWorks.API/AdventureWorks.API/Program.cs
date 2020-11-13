@@ -23,6 +23,7 @@ namespace AdventureWorks.API
 
 			try
 			{
+				Log.Information("Application started !!!!!!!!!!!!!");
 				CreateHostBuilder(args).Build().Run();
 			}
 			catch(Exception ex)

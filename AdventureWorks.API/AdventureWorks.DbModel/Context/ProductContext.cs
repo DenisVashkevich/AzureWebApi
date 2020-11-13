@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using AdventureWorks.DbModel.Models;
 using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace AdventureWorks.DbModel.Context
 {
@@ -14,6 +15,7 @@ namespace AdventureWorks.DbModel.Context
         public ProductContext(DbContextOptions<ProductContext> options, ILoggerFactory loggerFactory)
             : base(options)
         {
+            Log.Information("DB context constructor !!!!!!!!!!!!!");
             _loggerFactory = loggerFactory;
         }
 

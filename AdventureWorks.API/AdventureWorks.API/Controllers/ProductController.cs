@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using AdventureWorks.DbModel.Interfaces;
 using AdventureWorks.DbModel.Models;
+using Serilog;
+
 namespace AdventureWorks.API.Controllers
 {
     [Route("api/[controller]")]
@@ -12,13 +14,17 @@ namespace AdventureWorks.API.Controllers
 
         public ProductController(IProductService productService)
         {
+            Log.Information("Controlle constructorr !!!!!!!!!!!!!");
+
             _productService = productService;
         }
 
         // GET: api/Product
         [HttpGet]
         public List<ProductDbModel> GetProducts()
-        {
+        { 
+            Log.Information("ROUTE: api/Product !!!!!!!!!!!!!");
+
             return _productService.GetAllProducts();
         }
 

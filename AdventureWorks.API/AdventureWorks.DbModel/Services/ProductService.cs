@@ -14,6 +14,7 @@ namespace AdventureWorks.DbModel.Services
 
         public ProductService(ProductContext context)
         {
+            Log.Information("Product service constructor !!!!!!!!!!!!!");
             _dbcontext = context;
         }
 
@@ -49,6 +50,8 @@ namespace AdventureWorks.DbModel.Services
 
         public List<ProductDbModel> GetAllProducts()
         {
+            Log.Information("Get all products !!!!!!!!!!!!!");
+
             return _dbcontext.Product.ToList();
         }
 
