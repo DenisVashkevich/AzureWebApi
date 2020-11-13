@@ -18,10 +18,10 @@ namespace AdventureWorks.API
 				.Build();
 
 			Log.Logger = new LoggerConfiguration()
-				.ReadFrom.Configuration(configuration)
+				.WriteTo.File("log.txt", rollingInterval: RollingInterval.Day)
 				.CreateLogger();
 
-			var file = File.CreateText("./lselflog.txt");
+			var file = File.CreateText("selflog.txt");
 			Serilog.Debugging.SelfLog.Enable(TextWriter.Synchronized(file));
 
 			try
