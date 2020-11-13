@@ -44,13 +44,11 @@ namespace AdventureWorks.API
 			
 			app.UseSerilogRequestLogging();
 			app.UseRouting();
-			app.UseCors();
-
-			app.UseEndpoints(endpoints =>
+			app.UseCors(options =>
 			{
-				endpoints.MapControllerRoute(
-						name: "default",
-						pattern: "{controller=Product}/{action=GetProducts}/{id?}");
+				options.AllowAnyHeader();
+				options.AllowAnyMethod();
+				options.AllowAnyOrigin();
 			});
 
 			app.UseSwagger();
