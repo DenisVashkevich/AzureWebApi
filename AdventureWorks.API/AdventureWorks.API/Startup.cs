@@ -51,6 +51,11 @@ namespace AdventureWorks.API
 				options.AllowAnyOrigin();
 			});
 
+			app.UseEndpoints(options =>
+			{
+				options.MapControllers();
+			});
+
 			app.UseSwagger();
 
 			app.UseSwaggerUI(c =>

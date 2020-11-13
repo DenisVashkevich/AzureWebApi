@@ -21,6 +21,9 @@ namespace AdventureWorks.API
 				.ReadFrom.Configuration(configuration)
 				.CreateLogger();
 
+			var file = File.CreateText("./lselflog.txt");
+			Serilog.Debugging.SelfLog.Enable(TextWriter.Synchronized(file));
+
 			try
 			{
 				Log.Information("Application started !!!!!!!!!!!!!");
