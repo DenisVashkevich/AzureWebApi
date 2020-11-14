@@ -3,9 +3,7 @@ using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging.ApplicationInsights;
-using Microsoft.ApplicationInsights;
-using Serilog;
+using Microsoft.Extensions.Logging.ApplicationInsights;using Serilog;
 using Microsoft.Extensions.Logging;
 
 namespace AdventureWorks.API
@@ -21,6 +19,7 @@ namespace AdventureWorks.API
 
             Log.Logger = new LoggerConfiguration()
 				.ReadFrom.Configuration(configuration)
+				.WriteTo.ApplicationInsights("b5ca8a28-74f0-4d18-8574-7883fbe349cc", TelemetryConverter.Events)
 				.CreateLogger();
 
             try
@@ -44,12 +43,10 @@ namespace AdventureWorks.API
 				{
 					webBuilder.UseStartup<Startup>();
 				})
-				.ConfigureLogging((hostingcontext, logging) =>
-				{
-					logging.AddApplicationInsights("b5ca8a28-74f0-4d18-8574-7883fbe349cc");
-					logging.AddFilter<ApplicationInsightsLoggerProvider>("", LogLevel.Trace);
-					logging.AddFilter<ApplicationInsightsLoggerProvider>("Microsoft", LogLevel.Warning);
-				})
+				//.ConfigureLogging((hostingcontext, logging) =>
+				//{
+				//	logging.AddApplicationInsights("b5ca8a28-74f0-4d18-8574-7883fbe349cc");
+				//})
 				.UseSerilog();
 	}
 }

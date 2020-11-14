@@ -21,7 +21,7 @@ namespace AdventureWorks.API.Controllers
         [HttpGet]
         public List<ProductDbModel> GetProducts()
         { 
-            Log.Information("ROUTE: api/Product !!!!!!!!!!!!!");
+            Log.Information("Whole datatable transfered.");
 
             return _productService.GetAllProducts();
         }
@@ -30,7 +30,14 @@ namespace AdventureWorks.API.Controllers
         [HttpGet("{id}", Name = "Get")]
         public ProductDbModel GetProduct(int id)
         {
-            return _productService.GetProductById(id);
+            var item = _productService.GetProductById(id);
+
+            if(item == null)
+            {
+                Log.Warning($"Item not found id= {id}.");
+            }
+
+            return item;
         }
 
         // POST: api/Product
