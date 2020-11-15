@@ -43,10 +43,6 @@ namespace AdventureWorks.API
 				{
 					webBuilder.UseStartup<Startup>();
 				})
-				//.ConfigureLogging((hostingcontext, logging) =>
-				//{
-				//	logging.AddApplicationInsights("b5ca8a28-74f0-4d18-8574-7883fbe349cc");
-				//})
 				.UseSerilog();
 	}
 }

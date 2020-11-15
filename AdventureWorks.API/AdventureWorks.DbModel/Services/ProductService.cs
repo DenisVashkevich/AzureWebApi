@@ -6,6 +6,8 @@ using System.Linq;
 using AdventureWorks.DbModel.Utils;
 using Serilog;
 using System;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace AdventureWorks.DbModel.Services
 {
@@ -19,7 +21,7 @@ namespace AdventureWorks.DbModel.Services
             _dbcontext = context;
         }
 
-        public IQueryable<ProductDbModel> SearchForProducts(params string[] keywords)
+        public async Task<IEnumerable<ProductDbModel>> SearchForProductsAsync(params string[] keywords)
         {
             var predicate = PredicateBuilder.False<ProductDbModel>();
 
@@ -28,20 +30,26 @@ namespace AdventureWorks.DbModel.Services
                 predicate = predicate.Or(p => p.Name.Contains(keyword));
             }
 
-            return _dbcontext.Product.Where(predicate);
+            return await _dbcontext.Product.Where(predicate).ToListAsync();
         }
 
-        public ProductDbModel GetProductById(int id)
+        public async Task<ProductDbModel> GetProductByIdAsync(int id)
         {
-            Log.Information($"Product id={id} found.");
-            return _dbcontext.Product.FirstOrDefault(p => p.ProductId == id);
+            var item = await _dbcontext.Product.FirstOrDefaultAsync(p => p.ProductId == id);
+
+            if (item == null)
+            {
+                Log.Information($"product with id={id} not found in db");
+            }
+
+            return item;
         }
 
-        public void CreateProduct(ProductDbModel product)
+        public async Task CreateProductAsync(ProductDbModel product)
         {
             try
             {
-                _dbcontext.Product.Add(product);
+                await _dbcontext.Product.AddAsync(product);
             }
             catch(System.Exception ex)
             {
@@ -49,22 +57,22 @@ namespace AdventureWorks.DbModel.Services
             }
         }
 
-        public List<ProductDbModel> GetAllProducts()
+        public async Task<IEnumerable<ProductDbModel>> GetAllProductsAsync()
         {
             Log.Information("Now you have everything!");
 
-            return _dbcontext.Product.ToList();
+            return await _dbcontext.Product.ToListAsync();
         }
 
 
-        void IProductService.ModifyProduct(ProductDbModel product)
+        public async Task ModifyProductAsync(ProductDbModel product)
         {
-            var item = _dbcontext.Product.FirstOrDefault(p => p.ProductId == product.ProductId);
+            var item = await _dbcontext.Product.FirstOrDefaultAsync(p => p.ProductId == product.ProductId);
 
             if (item != null)
             {
                 _dbcontext.Product.Update(product);
-                _dbcontext.SaveChanges();
+                await _dbcontext.SaveChangesAsync();
             }
             else
             {
@@ -72,24 +80,26 @@ namespace AdventureWorks.DbModel.Services
             }
         }
 
-        void IProductService.DeleteProduct(int id)
+        public async Task<bool> DeleteProductAsync(int id)
         {
-            var item = _dbcontext.Product.Find(id);
+            var item = await _dbcontext.Product.FindAsync(id);
 
             if(item == null)
             {
-                Log.Warning("No product found in database, delete failed.");
-                return;
+                Log.Error($"Product with id={id} was not found in database, delete failed.");
+                return false;
             }
 
             try
             {
                 _dbcontext.Product.Remove(item);
-                _dbcontext.SaveChanges();
+                await _dbcontext.SaveChangesAsync();
+                return true;
             }
             catch(Exception ex)
             {
                 Log.Error(ex.Message);
+                throw ex;
             }
         }
     }

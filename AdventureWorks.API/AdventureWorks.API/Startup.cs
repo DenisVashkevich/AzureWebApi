@@ -9,14 +9,8 @@ using AdventureWorks.DbModel.Services;
 using AdventureWorks.DbModel.Interfaces;
 using Serilog;
 using Microsoft.OpenApi.Models;
-using Microsoft.ApplicationInsights.Extensibility;
-using Microsoft.ApplicationInsights.Channel;
-using Serilog.Configuration;
-using Serilog.Settings.Configuration;
-using Serilog.Settings;
-using Serilog.Sinks.ApplicationInsights;
-using Microsoft.ApplicationInsights;
-using System;
+using AutoMapper;
+using AdventureWorks.API.Models;
 
 namespace AdventureWorks.API
 {
@@ -30,18 +24,29 @@ namespace AdventureWorks.API
 		public IConfiguration Configuration { get; }
 
 
-        public void ConfigureServices(IServiceCollection services)
+		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddControllers();
-			services.AddSwaggerGen(c =>
+
+            services.AddSwaggerGen(c =>
 			{
 				c.SwaggerDoc("v1", new OpenApiInfo { Title = "Api", Version = "v1" });
 			});
 			services.AddDbContext<ProductContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Entities")));
 			services.AddScoped<IProductService, ProductService>();
+			services.AddAutoMapper(config =>
+            {
+				config.AddProfile(new MappingProfile());
+
+            });
 		}
 
-		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        private static MappingProfile NewMethod()
+        {
+            return new Models.MappingProfile();
+        }
+
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
 			if (env.IsDevelopment())
 			{
