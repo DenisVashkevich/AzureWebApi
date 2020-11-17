@@ -14,6 +14,7 @@ using AdventureWorks.API.Mappings;
 using System;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
+using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace AdventureWorks.API
 {
@@ -89,6 +90,19 @@ namespace AdventureWorks.API
 			app.UseSwaggerUI(c =>
 			{
 				c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+				c.DefaultModelExpandDepth(2);
+				c.DefaultModelRendering(ModelRendering.Model);
+				c.DefaultModelsExpandDepth(-1);
+				c.DisplayOperationId();
+				c.DisplayRequestDuration();
+				c.DocExpansion(DocExpansion.None);
+				c.EnableDeepLinking();
+				c.EnableFilter();
+				c.MaxDisplayedTags(5);
+				c.ShowExtensions();
+				c.ShowCommonExtensions();
+				c.EnableValidator();
+				c.SupportedSubmitMethods(SubmitMethod.Get, SubmitMethod.Head);
 			});
 
 		}

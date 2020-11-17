@@ -8,7 +8,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Serilog;
 using System;
-using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
 
 namespace AdventureWorks.API.Controllers
@@ -47,7 +46,7 @@ namespace AdventureWorks.API.Controllers
         /// Deletes a specific product from DB.
         /// </summary>
         /// <param name="id"></param>     
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}")]
         [Produces("application/json")]
         public async Task<ActionResult<ProductDbModel>> GetProduct(int id)
         {
