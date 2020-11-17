@@ -45,15 +45,17 @@ namespace AdventureWorks.DbModel.Services
             return item;
         }
 
-        public async Task CreateProductAsync(ProductDbModel product)
+        public async Task<bool> CreateProductAsync(ProductDbModel product)
         {
             try
             {
-                await _dbcontext.Product.AddAsync(product);
+                var result = await _dbcontext.Product.AddAsync(product);
+                return result.State == EntityState.Added;
             }
             catch(System.Exception ex)
             {
                 Log.Error(ex, $"Product id={product.ProductId} creation failed.");
+                throw ex;
             }
         }
 

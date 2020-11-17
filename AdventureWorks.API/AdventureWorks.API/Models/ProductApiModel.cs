@@ -27,7 +27,7 @@ namespace AdventureWorks.API.Models
         public DateTime SellStartDate { get; set; }
         public DateTime? SellEndDate { get; set; }
         public DateTime? DiscontinuedDate { get; set; }
-        public Guid Rowguid { get; set; }
+        public string Rowguid { get; set; }
         public DateTime ModifiedDate { get; set; }
     }
 }

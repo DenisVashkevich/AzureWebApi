@@ -10,7 +10,7 @@ namespace AdventureWorks.DbModel.Interfaces
         Task<IEnumerable<ProductDbModel>> GetAllProductsAsync();
         Task<IEnumerable<ProductDbModel>> SearchForProductsAsync(params string[] keywords);
         Task<ProductDbModel> GetProductByIdAsync(int id);
-        Task CreateProductAsync(ProductDbModel product);
+        Task<bool> CreateProductAsync(ProductDbModel product);
         Task ModifyProductAsync(ProductDbModel product);
         Task<bool> DeleteProductAsync(int id);
     }

@@ -10,7 +10,10 @@ using AdventureWorks.DbModel.Interfaces;
 using Serilog;
 using Microsoft.OpenApi.Models;
 using AutoMapper;
-using AdventureWorks.API.Models;
+using AdventureWorks.API.Mappings;
+using System;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using System.Reflection;
 
 namespace AdventureWorks.API
 {
@@ -27,11 +30,32 @@ namespace AdventureWorks.API
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddControllers();
-
-            services.AddSwaggerGen(c =>
+			services.AddSwaggerGen(c =>
 			{
-				c.SwaggerDoc("v1", new OpenApiInfo { Title = "Api", Version = "v1" });
+				c.SwaggerDoc("v1", new OpenApiInfo
+				{
+					Version = "v1",
+					Title = "AdventureWorksApi",
+					Description = "REST API for DB CRUD operations",
+					TermsOfService = new Uri("https://example.com/terms"),
+					Contact = new OpenApiContact
+					{
+						Name = "Denis",
+						Email = string.Empty,
+						Url = new Uri("https://twitter.com/spboyer"),
+					},
+					License = new OpenApiLicense
+					{
+						Name = "Use under LICX",
+						Url = new Uri("https://example.com/license"),
+					}
+				});
+				c.CustomOperationIds(apiDesc =>
+				{
+					return apiDesc.TryGetMethodInfo(out MethodInfo methodInfo) ? methodInfo.Name : null;
+				});
 			});
+			services.AddSwaggerGenNewtonsoftSupport();
 			services.AddDbContext<ProductContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Entities")));
 			services.AddScoped<IProductService, ProductService>();
 			services.AddAutoMapper(config =>
@@ -40,11 +64,6 @@ namespace AdventureWorks.API
 
             });
 		}
-
-        private static MappingProfile NewMethod()
-        {
-            return new Models.MappingProfile();
-        }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
