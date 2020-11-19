@@ -12,15 +12,14 @@ pool:
 variables:
   solution: 'AdventureWorks.API/*.sln'
   buildConfiguration: 'Release'
-  version: '1.0.1.0'
 
 steps:
 
 - task: DotNetCoreCLI@2
   inputs:
     command: 'build'
-    projects: './AdventureWorks.API/AdventureWorks.API/AdventureWorks.API.csproj'
-    arguments: '--configuration $(buildConfiguration) -p:Version=$(version)'
+    projects: '/**/**/*.csproj'
+    arguments: '--configuration $(buildConfiguration) -p:Version=1.0.$(Build.BuildId).$(Build.BuildNumber)'
 
 #- task: VSTest@2
 #  inputs:
@@ -37,6 +36,6 @@ steps:
 
 - task: PublishPipelineArtifact@1
   inputs:
-    targetPath: '$(Pipeline.Workspace)'
+    targetPath: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
     publishLocation: 'pipeline'
     artifactName: 'AdventureWorksWebApi'
