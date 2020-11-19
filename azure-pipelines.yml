@@ -10,10 +10,15 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  solution: 'AdventureWorks.API/*.sln'
   buildConfiguration: 'Release'
+  version: '1.0.4.346'
 
 steps:
+
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '3.1.x'
 
 - task: DotNetCoreCLI@2
   inputs:
@@ -21,21 +26,30 @@ steps:
     projects: '**/*.csproj'
     arguments: '--configuration $(buildConfiguration) -p:Version=1.0.3.456'
 
+- task: DotNetCoreCLI@2
+  displayName: "Publish"
+  inputs:
+    command: 'publish'
+    publishWebProjects: true
+    arguments: '--no-build --configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+    zipAfterPublish: true
+
+
 #- task: VSTest@2
 #  inputs:
 #    platform: '$(buildPlatform)'
 #    configuration: '$(buildConfiguration)'
 
-- task: ArchiveFiles@2
-  inputs:
-    rootFolderOrFile: '$(Build.BinariesDirectory)'
-    includeRootFolder: true
-    archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-    replaceExistingArchive: true
+# - task: ArchiveFiles@2
+#   inputs:
+#     rootFolderOrFile: '$(Build.ArtifactStagingDirectory)'
+#     includeRootFolder: true
+#     archiveType: 'zip'
+#     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.)$(Build.BuildId).zip'
+#     replaceExistingArchive: true
 
 - task: PublishPipelineArtifact@1
   inputs:
-    targetPath: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    targetPath: '$(Build.ArtifactStagingDirectory)'
     publishLocation: 'pipeline'
     artifactName: 'AdventureWorksWebApi'
