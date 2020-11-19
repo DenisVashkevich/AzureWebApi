@@ -12,6 +12,7 @@ pool:
 variables:
   solution: 'AdventureWorks.API/*.sln'
   buildConfiguration: 'Release'
+  version: '1.0.1.0'
 
 steps:
 
@@ -19,18 +20,23 @@ steps:
   inputs:
     command: 'build'
     projects: './AdventureWorks.API/AdventureWorks.API/AdventureWorks.API.csproj'
-    arguments: '--no-restore --configuration $(buildConfiguration)'
-
+    arguments: '--configuration $(buildConfiguration) -p:Version=$(version)'
 
 #- task: VSTest@2
 #  inputs:
 #    platform: '$(buildPlatform)'
 #    configuration: '$(buildConfiguration)'
 
-#- task: ArchiveFiles@2
-#  inputs:
-#    rootFolderOrFile: '$(Build.BinariesDirectory)'
-#    includeRootFolder: true
-#    archiveType: 'zip'
-#    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-#    replaceExistingArchive: true
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(Build.BinariesDirectory)'
+    includeRootFolder: true
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    replaceExistingArchive: true
+
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: '$(Pipeline.Workspace)'
+    publishLocation: 'pipeline'
+    artifactName: 'AdventureWorksWebApi'
