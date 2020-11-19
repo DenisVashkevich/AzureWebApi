@@ -19,7 +19,7 @@ steps:
   inputs:
     command: 'build'
     projects: '**/*.csproj'
-    arguments: '--configuration $(buildConfiguration) -p:Version=1.0.$(Build.BuildId).$(Build.BuildNumber)'
+    arguments: '--configuration $(buildConfiguration) -p:Version=1.$(Build.BuildNumber)'
 
 #- task: VSTest@2
 #  inputs:
