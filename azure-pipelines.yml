@@ -18,7 +18,7 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: 'build'
-    projects: '/**/**/*.csproj'
+    projects: '**/*.csproj'
     arguments: '--configuration $(buildConfiguration) -p:Version=1.0.$(Build.BuildId).$(Build.BuildNumber)'
 
 #- task: VSTest@2
