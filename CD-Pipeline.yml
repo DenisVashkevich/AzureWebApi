@@ -40,16 +40,20 @@ steps:
 #    platform: '$(buildPlatform)'
 #    configuration: '$(buildConfiguration)'
 
-# - task: ArchiveFiles@2
-#   inputs:
-#     rootFolderOrFile: '$(Build.ArtifactStagingDirectory)'
-#     includeRootFolder: true
-#     archiveType: 'zip'
-#     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.)$(Build.BuildId).zip'
-#     replaceExistingArchive: true
-
 - task: PublishPipelineArtifact@1
   inputs:
     targetPath: '$(Build.ArtifactStagingDirectory)'
     publishLocation: 'pipeline'
     artifactName: 'AdventureWorksWebApi'
+
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Visual Studio Professional (2747cf88-a2a9-4cdf-905a-767e85933c83)'
+    appType: 'webApp'
+    WebAppName: 'AdventureWorksProductsApi'
+    deployToSlotOrASE: true
+    ResourceGroupName: 'adventure-works-gr'
+    SlotName: 'staging'
+    packageForLinux: '$(Build.ArtifactStagingDirectory)/**/*.zip'
+
