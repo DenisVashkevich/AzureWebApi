@@ -7,7 +7,7 @@ trigger:
   batch: true
   branches:
     include:
-    - master
+    - development
 
 pool:
   vmImage: 'windows-latest'
@@ -37,6 +37,7 @@ steps:
     arguments: '--no-build --configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
     zipAfterPublish: true
 
+#Result of this job is validation of developer push action by running tests and notifiing in case of failure
 
 #- task: VSTest@2
 #  inputs:
@@ -50,9 +51,3 @@ steps:
 #     archiveType: 'zip'
 #     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.)$(Build.BuildId).zip'
 #     replaceExistingArchive: true
-
-- task: PublishPipelineArtifact@1
-  inputs:
-    targetPath: '$(Build.ArtifactStagingDirectory)'
-    publishLocation: 'pipeline'
-    artifactName: 'AdventureWorksWebApi'
