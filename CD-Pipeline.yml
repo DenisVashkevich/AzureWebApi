@@ -49,11 +49,8 @@ steps:
 - task: AzureRmWebAppDeployment@4
   inputs:
     ConnectionType: 'AzureRM'
-    azureSubscription: 'Visual Studio Professional (2747cf88-a2a9-4cdf-905a-767e85933c83)'
+    azureSubscription: 'Azure subscription 1(423a45ba-ffad-493b-b150-ebcca840fc93)'
     appType: 'webApp'
-    WebAppName: 'AdventureWorksProductsApi'
-    deployToSlotOrASE: true
-    ResourceGroupName: 'adventure-works-gr'
-    SlotName: 'staging'
+    WebAppName: 'AdvWorksProductsApi'
     packageForLinux: '$(Build.ArtifactStagingDirectory)/**/*.zip'
 
