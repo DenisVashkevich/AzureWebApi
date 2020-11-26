@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using AdventureWorks.DbModel.Models;
 using Microsoft.Extensions.Logging;
-using Serilog;
 
 namespace AdventureWorks.DbModel.Context
 {
