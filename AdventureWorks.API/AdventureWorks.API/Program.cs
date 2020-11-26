@@ -3,23 +3,30 @@ using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging.ApplicationInsights;using Serilog;
-using Microsoft.Extensions.Logging;
+using Microsoft.WindowsAzure.Storage;
+using Serilog;
 
 namespace AdventureWorks.API
 {
 	public class Program
 	{
-		public static void Main(string[] args)
+        private const string STORAGE_ACC_KEY_VALUE = "YXLMoq5Ie6ubryNjJxc9SrOV/9e8qT70VrPpzBafC6tdqzAPNm7JS8DcXi0rG1c6KKanmSZP8goGtf2Iaa8kxA==";
+		private const string STORAGE_ACC_NAME = "advworksstorage";
+
+        public static void Main(string[] args)
 		{
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")
                 .Build();
 
-            Log.Logger = new LoggerConfiguration()
-				.ReadFrom.Configuration(configuration)
-				.WriteTo.ApplicationInsights("b5ca8a28-74f0-4d18-8574-7883fbe349cc", TelemetryConverter.Events)
+			var storage = new CloudStorageAccount(
+				storageCredentials: new Microsoft.WindowsAzure.Storage.Auth.StorageCredentials(accountName: STORAGE_ACC_NAME, keyValue: STORAGE_ACC_KEY_VALUE),
+				useHttps: true
+				);
+
+			Log.Logger = new LoggerConfiguration()
+				.WriteTo.AzureTableStorage(storage)
 				.CreateLogger();
 
             try
