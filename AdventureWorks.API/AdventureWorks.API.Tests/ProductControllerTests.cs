@@ -31,7 +31,7 @@ namespace AdventureWorks.API.Tests
         }
 
         [Fact]
-        public void CreateProductShouldReturnBadrequestWhenModelNotValid()
+        public async void CreateProductShouldReturnBadrequestWhenModelNotValid()
         {
             //Arrange
             var productServieMock = new Mock<IProductService>();
@@ -41,7 +41,7 @@ namespace AdventureWorks.API.Tests
             var productController = new ProductController(productServieMock.Object, mapperMock.Object);
 
             //Act
-            var result = productController.CreateProduct(InvalidModel());
+            var result = await productController.CreateProduct(InvalidModel());
 
             //Assert
             Assert.IsType<BadRequestObjectResult>(result);
