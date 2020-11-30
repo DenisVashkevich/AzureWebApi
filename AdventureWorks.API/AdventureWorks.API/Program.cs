@@ -1,7 +1,5 @@
 using System;
-using System.IO;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.WindowsAzure.Storage;
 using Serilog;
@@ -15,10 +13,10 @@ namespace AdventureWorks.API
 
         public static void Main(string[] args)
 		{
-            var configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json")
-                .Build();
+            //var configuration = new ConfigurationBuilder()
+            //    .SetBasePath(Directory.GetCurrentDirectory())
+            //    .AddJsonFile("appsettings.json")
+            //    .Build();
 
 			var storage = new CloudStorageAccount(
 				storageCredentials: new Microsoft.WindowsAzure.Storage.Auth.StorageCredentials(accountName: STORAGE_ACC_NAME, keyValue: STORAGE_ACC_KEY_VALUE),

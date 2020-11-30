@@ -1,12 +1,19 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace AdventureWorks.API.Models
 {
     public class ProductApiModel
     {
+        [Required(ErrorMessage = "Id required")]
         public int ProductId { get; set; }
+
+        [Required(ErrorMessage = "Name required")]
         public string Name { get; set; }
+
+        [Required(ErrorMessage = "ProductNumber required")]
         public string ProductNumber { get; set; }
+
         public bool? MakeFlag { get; set; }
         public bool? FinishedGoodsFlag { get; set; }
         public string Color { get; set; }

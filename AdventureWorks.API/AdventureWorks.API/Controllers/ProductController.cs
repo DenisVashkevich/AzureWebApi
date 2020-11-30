@@ -92,16 +92,29 @@ namespace AdventureWorks.API.Controllers
         [Consumes("application/json")]
         public async Task<ActionResult> CreateProduct(ProductApiModel item)
         {
-            //var product = JsonConvert.DeserializeObject<ProductApiModel>(value);
+            if(item == null)
+            {
+                return BadRequest(item);
+            }
+
+            if(string.IsNullOrEmpty(item.Name))
+            {
+                ModelState.AddModelError("Name", "Name should not be empty");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(item);
+            }
 
             var result = await _productService.CreateProductAsync(_automaper.Map<ProductDbModel>(item));
 
-            if(result)
+            if (!result)
             {
-                return CreatedAtRoute("Product", new { id = item.ProductId }, item);
+                return BadRequest();
             }
 
-            return BadRequest();
+            return CreatedAtRoute("Product", new { id = item.ProductId }, item);
         }
 
         /// <summary>
