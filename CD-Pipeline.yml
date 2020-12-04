@@ -11,7 +11,7 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-  version: '1.0.4.346'
+  version: '1.0.5.111'
 
 steps:
 
