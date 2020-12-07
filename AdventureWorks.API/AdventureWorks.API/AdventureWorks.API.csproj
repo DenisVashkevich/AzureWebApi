@@ -26,6 +26,9 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AdventureWorks.DbModel\AdventureWorks.DbModel.csproj" />
+    <ProjectReference Include="..\AdventureWorks.DocStorage\AdventureWorks.DocStorage.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />

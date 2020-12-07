@@ -15,6 +15,9 @@ using System;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
 using Swashbuckle.AspNetCore.SwaggerUI;
+using AdventureWorks.DocStorage.Interfaces;
+using AdventureWorks.DocStorage.Services;
+
 
 namespace AdventureWorks.API
 {
@@ -59,6 +62,7 @@ namespace AdventureWorks.API
 			services.AddSwaggerGenNewtonsoftSupport();
 			services.AddDbContext<ProductContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Entities")));
 			services.AddScoped<IProductService, ProductService>();
+			services.AddScoped<IDocumentStorageService, DocumentBlobStorageService>();
 			services.AddAutoMapper(config =>
             {
 				config.AddProfile(new MappingProfile());

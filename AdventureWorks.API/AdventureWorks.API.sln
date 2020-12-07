@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdventureWorks.DbModel", "A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdventureWorks.API.Tests", "AdventureWorks.API.Tests\AdventureWorks.API.Tests.csproj", "{2CE53AE1-93A4-467F-A6E6-15D60D3B73F8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdventureWorks.DocStorage", "AdventureWorks.DocStorage\AdventureWorks.DocStorage.csproj", "{DB83492C-DD38-48EE-B136-9B6665731AA5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{2CE53AE1-93A4-467F-A6E6-15D60D3B73F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2CE53AE1-93A4-467F-A6E6-15D60D3B73F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2CE53AE1-93A4-467F-A6E6-15D60D3B73F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB83492C-DD38-48EE-B136-9B6665731AA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB83492C-DD38-48EE-B136-9B6665731AA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB83492C-DD38-48EE-B136-9B6665731AA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB83492C-DD38-48EE-B136-9B6665731AA5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
