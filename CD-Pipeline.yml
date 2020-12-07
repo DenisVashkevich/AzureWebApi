@@ -11,7 +11,7 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-  version: '1.0.4.346'
+  version: '1.0.5.111'
 
 steps:
 
@@ -26,6 +26,20 @@ steps:
     projects: '**/*.csproj'
     arguments: '--configuration $(buildConfiguration) -p:Version=1.0.3.456'
 
+- task: VSTest@2
+  inputs:
+    testSelector: 'testAssemblies'
+    testAssemblyVer2: |
+      **/bin/$(BuildConfiguration)/**/*Tests.dll
+      !**/obj/**
+      !**/xunit.runner.visualstudio.testadapter.dll
+      !**/xunit.runner.visualstudio.dotnetcore.testadapter.dll
+    searchFolder: '$(System.DefaultWorkingDirectory)'
+    runTestsInIsolation: true
+    codeCoverageEnabled: true
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+
 - task: DotNetCoreCLI@2
   displayName: "Publish"
   inputs:
@@ -34,11 +48,6 @@ steps:
     arguments: '--no-build --configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
     zipAfterPublish: true
 
-
-#- task: VSTest@2
-#  inputs:
-#    platform: '$(buildPlatform)'
-#    configuration: '$(buildConfiguration)'
 
 - task: PublishPipelineArtifact@1
   inputs:
@@ -53,4 +62,3 @@ steps:
     appType: 'webApp'
     WebAppName: 'AdvWorksProductsApi'
     packageForLinux: '$(Build.ArtifactStagingDirectory)/**/*.zip'
-
