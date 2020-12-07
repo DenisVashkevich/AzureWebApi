@@ -9,9 +9,15 @@ namespace AdventureWorks.DocStorage.Services
 {
     public class DocumentBlobStorageService : IDocumentStorageService
     {
+        private readonly IUploadNotificationService _uploadNotificationService;
+
         private const string STORAGE_ACCOUNT_CONNECTION_STRING = "DefaultEndpointsProtocol=https;AccountName=advworksstorage;AccountKey=YXLMoq5Ie6ubryNjJxc9SrOV/9e8qT70VrPpzBafC6tdqzAPNm7JS8DcXi0rG1c6KKanmSZP8goGtf2Iaa8kxA==;EndpointSuffix=core.windows.net";
         private const string BLOB_CONTAINER_NAME = "adv-wrks-documents";
 
+        public DocumentBlobStorageService(IUploadNotificationService uploadNotificationService)
+        {
+            _uploadNotificationService = uploadNotificationService;
+        }
 
         public async Task<Uri> AddDocumentAsync(WordDocumentModel document)
         {
@@ -22,6 +28,8 @@ namespace AdventureWorks.DocStorage.Services
 
             var blobClient = blobContainerClient.GetBlobClient(document.FileName);
             await blobClient.UploadAsync(document.FileContent, new BlobHttpHeaders { ContentType = document.ContentType });
+
+            await _uploadNotificationService.NotifyOnUploadAsync(document.FileName);
 
             return blobClient.Uri;
         }

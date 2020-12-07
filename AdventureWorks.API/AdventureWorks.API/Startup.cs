@@ -63,6 +63,7 @@ namespace AdventureWorks.API
 			services.AddDbContext<ProductContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Entities")));
 			services.AddScoped<IProductService, ProductService>();
 			services.AddScoped<IDocumentStorageService, DocumentBlobStorageService>();
+			services.AddScoped<IUploadNotificationService, AzureQueueNotificationService>();
 			services.AddAutoMapper(config =>
             {
 				config.AddProfile(new MappingProfile());
