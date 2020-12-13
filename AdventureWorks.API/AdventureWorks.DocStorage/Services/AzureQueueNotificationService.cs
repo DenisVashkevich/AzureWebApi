@@ -1,22 +1,26 @@
 ﻿using System.Threading.Tasks;
 using AdventureWorks.DocStorage.Interfaces;
+using AdventureWorks.DocStorage.Utils;
 using Azure.Storage.Queues;
-
+using Microsoft.Extensions.Configuration;
 
 namespace AdventureWorks.DocStorage.Services
 {
     public class AzureQueueNotificationService: IUploadNotificationService
     {
-        private const string STORAGE_ACCOUNT_CONNECTION_STRING = "DefaultEndpointsProtocol=https;AccountName=advworksstorage;AccountKey=YXLMoq5Ie6ubryNjJxc9SrOV/9e8qT70VrPpzBafC6tdqzAPNm7JS8DcXi0rG1c6KKanmSZP8goGtf2Iaa8kxA==;EndpointSuffix=core.windows.net";
-        private const string QUEUE_NAME = "adv-wrks-documents-notification";
-        private const string MESSAGE_TEMPLATE = "New file uploaded:";
+        private readonly IConfiguration _configuration;
+
+        public AzureQueueNotificationService(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
 
         public async Task NotifyOnUploadAsync(string fileName)
         {
-            var queueClient = new QueueClient(STORAGE_ACCOUNT_CONNECTION_STRING, QUEUE_NAME);
+            var queueClient = new QueueClient(_configuration[Defines.STORAGE_ACCOUNT_CONNECTION_STRING_SECTTION], _configuration[Defines.QUEUE_NAME_SECTION]);
             queueClient.CreateIfNotExists();
 
-            await queueClient.SendMessageAsync(MESSAGE_TEMPLATE + $" {fileName}");
+            await queueClient.SendMessageAsync(Defines.NOTIFICATION_SERVICE_MESSAGE_TEMPLATE + $" {fileName}");
         }
     }
 }

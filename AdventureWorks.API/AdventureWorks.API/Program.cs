@@ -1,25 +1,32 @@
 using System;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.WindowsAzure.Storage;
 using Serilog;
+using System.IO;
+using Microsoft.Extensions.Configuration.AzureAppConfiguration;
 
 namespace AdventureWorks.API
 {
 	public class Program
 	{
-        private const string STORAGE_ACC_KEY_VALUE = "YXLMoq5Ie6ubryNjJxc9SrOV/9e8qT70VrPpzBafC6tdqzAPNm7JS8DcXi0rG1c6KKanmSZP8goGtf2Iaa8kxA==";
-		private const string STORAGE_ACC_NAME = "advworksstorage";
+		private const string STORAGE_ACC_KEY_SECTION = "StorageAccount:ConnectionKey";
+		private const string STORAGE_ACC_NAME_SECTION = "StorageAccount:AccountName";
+		private const string SETTINGS_FILE_NAME = "appsettings.json";
+		private const string APPCONFIG_SECTION = "AppConfig";
 
-        public static void Main(string[] args)
+		public static void Main(string[] args)
 		{
-            //var configuration = new ConfigurationBuilder()
-            //    .SetBasePath(Directory.GetCurrentDirectory())
-            //    .AddJsonFile("appsettings.json")
-            //    .Build();
+			var settings = new ConfigurationBuilder()
+				.SetBasePath(Directory.GetCurrentDirectory())
+				.AddJsonFile(SETTINGS_FILE_NAME)
+				.Build();
 
 			var storage = new CloudStorageAccount(
-				storageCredentials: new Microsoft.WindowsAzure.Storage.Auth.StorageCredentials(accountName: STORAGE_ACC_NAME, keyValue: STORAGE_ACC_KEY_VALUE),
+				storageCredentials: new Microsoft.WindowsAzure.Storage.Auth.StorageCredentials(
+					accountName: settings[STORAGE_ACC_NAME_SECTION],
+					keyValue: settings[STORAGE_ACC_KEY_SECTION]),
 				useHttps: true
 				);
 
@@ -46,8 +53,16 @@ namespace AdventureWorks.API
 			Host.CreateDefaultBuilder(args)
 				.ConfigureWebHostDefaults(webBuilder =>
 				{
-					webBuilder.UseStartup<Startup>();
-				})
-				.UseSerilog();
+					webBuilder.ConfigureAppConfiguration((hostingContext, config) =>
+					{
+						var settings = config.Build();
+						config.AddAzureAppConfiguration(options =>
+							options
+								.Connect(settings.GetConnectionString(APPCONFIG_SECTION))
+								.Select(KeyFilter.Any, LabelFilter.Null)
+								.Select(KeyFilter.Any, hostingContext.HostingEnvironment.EnvironmentName)
+						);
+					}).UseStartup<Startup>();
+				}).UseSerilog();
 	}
 }
