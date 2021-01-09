@@ -24,11 +24,12 @@ namespace AdventureWorks.API.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> UploadDocumentAsync (IFormFile file)
+        [Consumes("multipart/form-data")]
+        public async Task<ActionResult> UploadDocumentAsync ([FromForm(Name = "file")]IFormFile file)
         {
             if(file == null || file.Length == 0)
             {
-                return BadRequest();
+                return BadRequest(file);
             }
 
             Uri result;
