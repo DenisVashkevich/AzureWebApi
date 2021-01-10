@@ -30,7 +30,7 @@ namespace AdventureWorks.DocStorage.Services
             var blobClient = blobContainerClient.GetBlobClient(document.FileName);
             await blobClient.UploadAsync(document.FileContent, new BlobHttpHeaders { ContentType = document.ContentType });
 
-            await _uploadNotificationService.NotifyOnUploadAsync(document.FileName);
+            await _uploadNotificationService.NotifyOnUploadAsync(blobClient.Uri.AbsoluteUri);
 
             return blobClient.Uri;
         }
