@@ -15,12 +15,12 @@ namespace AdventureWorks.DocStorage.Services
             _configuration = configuration;
         }
 
-        public async Task NotifyOnUploadAsync(string fileName)
+        public async Task NotifyOnUploadAsync(string message)
         {
             var queueClient = new QueueClient(_configuration[Defines.STORAGE_ACCOUNT_CONNECTION_STRING_SECTTION], _configuration[Defines.QUEUE_NAME_SECTION]);
             queueClient.CreateIfNotExists();
 
-            await queueClient.SendMessageAsync(Defines.NOTIFICATION_SERVICE_MESSAGE_TEMPLATE + $" {fileName}");
+            await queueClient.SendMessageAsync(message);
         }
     }
 }

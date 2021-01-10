@@ -4,7 +4,6 @@
     {
         public const string STORAGE_ACCOUNT_CONNECTION_STRING_SECTTION = "AdvWorksProductsApi:Storage:ConnectionString";
         public const string QUEUE_NAME_SECTION = "adv-wrks-documents-notification";
-        public const string NOTIFICATION_SERVICE_MESSAGE_TEMPLATE = "New file uploaded:";
         public const string BLOB_CONTAINER_NAME_SECTION = "AdvWorksProductsApi:Storage:DocumentContainerName";
     }
 }
