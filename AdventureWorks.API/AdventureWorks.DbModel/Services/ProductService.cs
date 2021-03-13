@@ -55,7 +55,7 @@ namespace AdventureWorks.DbModel.Services
             catch(System.Exception ex)
             {
                 Log.Error(ex, $"Product id={product.ProductId} creation failed.");
-                throw ex;
+                return false;
             }
         }
 
@@ -101,7 +101,7 @@ namespace AdventureWorks.DbModel.Services
             catch(Exception ex)
             {
                 Log.Error(ex.Message);
-                throw ex;
+                return false;
             }
         }
     }

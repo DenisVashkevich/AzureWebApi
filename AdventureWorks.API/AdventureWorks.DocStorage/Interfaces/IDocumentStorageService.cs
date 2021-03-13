@@ -6,6 +6,6 @@ namespace AdventureWorks.DocStorage.Interfaces
 {
     public interface IDocumentStorageService
     {
-        public Task<Uri> AddDocumentAsync(WordDocumentModel document);
+        public Task<string> AddDocumentAsync(WordDocumentModel document);
     }
 }
