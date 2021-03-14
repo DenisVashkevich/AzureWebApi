@@ -9,6 +9,7 @@ using SqlKata.Execution;
 using System.IO;
 using System;
 using System.Net;
+using System.Text;
 
 namespace AdventureWorks.DocFunctions
 {
@@ -17,7 +18,7 @@ namespace AdventureWorks.DocFunctions
         [FunctionName("AdventureWorksDocumentsFunction")]
         public static async void RunAsync([QueueTrigger("documentqueue", Connection = "StorageConnection")] string myQueueItem, ILogger log, ExecutionContext context)
         {
-            log.LogInformation($"Queue trigger function processed: {myQueueItem}");
+            //log.LogInformation($"Queue trigger function processed: {myQueueItem}");
 
             var config = new ConfigurationBuilder()
                 .SetBasePath(context.FunctionAppDirectory)
@@ -27,7 +28,7 @@ namespace AdventureWorks.DocFunctions
 
             log.LogInformation(myQueueItem);
 
-            var docmeta = JsonSerializer.Deserialize<DocumentMetadaSerializationModel>(myQueueItem);
+            var docmeta = JsonSerializer.Deserialize<DocumentMetadaSerializationModel>(Encoding.UTF8.GetString(Convert.FromBase64String(myQueueItem)));
 
             log.LogInformation(docmeta.Title);
 

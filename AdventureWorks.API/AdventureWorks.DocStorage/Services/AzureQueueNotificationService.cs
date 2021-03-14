@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using AdventureWorks.DocStorage.Interfaces;
 using AdventureWorks.DocStorage.Utils;
 using Azure.Storage.Queues;
@@ -17,7 +18,12 @@ namespace AdventureWorks.DocStorage.Services
 
         public async Task NotifyOnUploadAsync(string message)
         {
-            var queueClient = new QueueClient(_configuration[Defines.STORAGE_ACCOUNT_CONNECTION_STRING_SECTTION], _configuration[Defines.QUEUE_NAME_SECTION]);
+            var options = new QueueClientOptions()
+            {
+                MessageEncoding = QueueMessageEncoding.Base64
+            };
+            var queueClient = new QueueClient(_configuration[Defines.STORAGE_ACCOUNT_CONNECTION_STRING_SECTTION], _configuration[Defines.QUEUE_NAME_SECTION],options);
+            
             queueClient.CreateIfNotExists();
 
             await queueClient.SendMessageAsync(message);

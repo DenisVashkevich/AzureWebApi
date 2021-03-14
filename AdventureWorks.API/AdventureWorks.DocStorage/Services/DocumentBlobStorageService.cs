@@ -9,7 +9,6 @@ using Azure.Storage.Blobs.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using System.Text.Json;
-using System.Text;
 
 namespace AdventureWorks.DocStorage.Services
 {
@@ -53,10 +52,10 @@ namespace AdventureWorks.DocStorage.Services
 
                 var options = new JsonSerializerOptions
                 {
-                    WriteIndented = true,
+                    WriteIndented = false
                 };
-                var base64Message = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(documentMetadata, options)));
-                await _uploadNotificationService.NotifyOnUploadAsync(base64Message);
+                var jsonMessage = JsonSerializer.Serialize(documentMetadata, options);
+                await _uploadNotificationService.NotifyOnUploadAsync(jsonMessage);
 
                 return blobClient.Uri.AbsoluteUri;
             }
