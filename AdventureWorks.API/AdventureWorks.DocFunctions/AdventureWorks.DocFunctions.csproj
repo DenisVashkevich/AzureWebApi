@@ -252,6 +252,16 @@
     <None Remove="obj\Release\netcoreapp3.1\PubTmp\Out\bin\extensions.json" />
     <None Remove="obj\Release\netcoreapp3.1\PubTmp\Out\bin\extensions.json" />
     <None Remove="obj\Release\netcoreapp3.1\PubTmp\Out\bin\extensions.json" />
+    <None Remove="obj\Release\netcoreapp3.1\PubTmp\Out\AdventureWorksDocumentsFunction\function.json" />
+    <None Remove="obj\Release\netcoreapp3.1\PubTmp\Out\bin\extensions.json" />
+    <None Remove="obj\Release\netcoreapp3.1\PubTmp\Out\AdventureWorksDocumentsFunction\function.json" />
+    <None Remove="obj\Release\netcoreapp3.1\PubTmp\Out\bin\extensions.json" />
+    <None Remove="obj\Release\netcoreapp3.1\PubTmp\Out\AdventureWorksDocumentsFunction\function.json" />
+    <None Remove="obj\Release\netcoreapp3.1\PubTmp\Out\bin\extensions.json" />
+    <None Remove="obj\Release\netcoreapp3.1\PubTmp\Out\bin\extensions.json" />
+    <None Remove="obj\Release\netcoreapp3.1\PubTmp\Out\bin\extensions.json" />
+    <None Remove="obj\Release\netcoreapp3.1\PubTmp\Out\bin\extensions.json" />
+    <None Remove="obj\Release\netcoreapp3.1\PubTmp\Out\bin\extensions.json" />
   </ItemGroup>
   <ItemGroup>
     <None Include="**/*" />
