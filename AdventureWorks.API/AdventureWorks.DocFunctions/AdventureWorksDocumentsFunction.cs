@@ -45,28 +45,52 @@ namespace AdventureWorks.DocFunctions
                     var command = connection.CreateCommand();
                     var transaction = (SqlTransaction)await connection.BeginTransactionAsync();
 
-                    command.Connection = connection;
-                    command.Transaction = transaction;
+                    //command.Connection = connection;
+                    //command.Transaction = transaction;
                     var compiler = new SqlServerCompiler();
 
-                    var db = new QueryFactory(connection, compiler);
+                    //string query = "INSERT INTO [Production].[Location] VALUES (@EmployeeID, @EmployeeName, @DocumentName, @FileName, @FileContentType, @FileData)";
+                    string query = "INSERT INTO [Production].[Location] VALUES('Zimbabwe', '0.0000', '0.00', '2008-04-30 00:00:00.000')";
+                    command.CommandText = query;
+                    await command.ExecuteNonQueryAsync();
+                    await command.Transaction.CommitAsync();
+                    await connection.CloseAsync();
+
+                    //using (SqlCommand cmd = new SqlCommand(query))
+                    //{
+                    //    cmd.Connection = connection;
+                    //    cmd.Parameters.AddWithValue("@EmployeeID", ddlEmployees.SelectedItem.Value);
+                    //    cmd.Parameters.AddWithValue("@EmployeeName", ddlEmployees.SelectedItem.Text);
+                    //    cmd.Parameters.AddWithValue("@DocumentName", txtDocument.Text);
+                    //    cmd.Parameters.AddWithValue("@FileName", empFilename);
+                    //    cmd.Parameters.AddWithValue("@FileContentType", FilecontentType);
+                    //    cmd.Parameters.AddWithValue("@FileData", Databytes);
+                    //    //open database connection  
+                    //    connection.Open();
+                    //    //execute SQL statement   
+                    //    cmd.ExecuteNonQuery();
+                    //    connection.Close();
+                    //}
+
+                    //var db = new QueryFactory(connection, compiler);
 
                     try
                     {
-                        var query = db.Query("[Production].[Document]").Insert(new
-                        {
-                            Title = docmeta.Title,
-                            Owner = 217,
-                            FolderFlag = 0,
-                            FileName = docmeta.FileName,
-                            FileExtension = docmeta.FileExtension,
-                            Revision = docmeta.Revision,
-                            ChangeNumber = docmeta.ChangeNuber,
-                            Status = docmeta.Status,
-                            DocumentSummary = docmeta.DocumentSummary,
-                            Document = reader.ReadBytes((int)data.Length)
 
-                        }).ToString();
+                        //var query = db.Query("[Production].[Document]").Insert(new
+                        //{
+                        //    Title = docmeta.Title,
+                        //    Owner = 217,
+                        //    FolderFlag = 0,
+                        //    FileName = docmeta.FileName,
+                        //    FileExtension = docmeta.FileExtension,
+                        //    Revision = docmeta.Revision,
+                        //    ChangeNumber = docmeta.ChangeNuber,
+                        //    Status = docmeta.Status,
+                        //    DocumentSummary = docmeta.DocumentSummary,
+                        //    Document = reader.ReadBytes((int)data.Length)
+
+                        //}).ToString();
 
                         log.LogInformation(query);
 
@@ -85,9 +109,9 @@ namespace AdventureWorks.DocFunctions
                         //                                          ,[rowguid]
                         //                                          ,[ModifiedDate]) values(@name)";
 
-                        command.CommandText = query;
-                        await command.ExecuteNonQueryAsync();
-                        await command.Transaction.CommitAsync();
+                        //command.CommandText = query;
+                        //await command.ExecuteNonQueryAsync();
+                        //await command.Transaction.CommitAsync();
                     }
                     catch(Exception e)
                     {

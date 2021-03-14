@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Threading.Tasks;
 using AdventureWorks.DocStorage.Interfaces;
 using AdventureWorks.DocStorage.Utils;
@@ -22,11 +23,11 @@ namespace AdventureWorks.DocStorage.Services
             {
                 MessageEncoding = QueueMessageEncoding.Base64
             };
-            var queueClient = new QueueClient(_configuration[Defines.STORAGE_ACCOUNT_CONNECTION_STRING_SECTTION], _configuration[Defines.QUEUE_NAME_SECTION],options);
+            var queueClient = new QueueClient(_configuration[Defines.STORAGE_ACCOUNT_CONNECTION_STRING_SECTTION], _configuration[Defines.QUEUE_NAME_SECTION], options);
             
             queueClient.CreateIfNotExists();
-
-            await queueClient.SendMessageAsync(message);
+            var encodedMessage = Convert.ToBase64String(Encoding.UTF8.GetBytes(message));
+            await queueClient.SendMessageAsync(encodedMessage);
         }
     }
 }
