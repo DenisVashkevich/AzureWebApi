@@ -39,15 +39,12 @@ namespace AdventureWorks.DocStorage.Services
                 {
                     Title = document.Title,
                     Owner = 210,
-                    FolderFlag = 0,
                     FileName = Path.GetFileNameWithoutExtension(document.FileName),
                     FileExtension = Path.GetExtension(document.FileName),
                     Revision = 2,
-                    ChangeNuber = 3,
                     Status = 4,
                     DocumentSummary = document.Summary,
                     DocumentUrl = blobClient.Uri.AbsoluteUri,
-                    ModifiedDate = DateTime.Today.ToString()
                 };
 
                 var options = new JsonSerializerOptions

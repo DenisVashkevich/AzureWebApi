@@ -44,7 +44,6 @@ namespace AdventureWorks.API.Controllers
                     Title = title,
                     FileContent = stream,
                     ContentType = file.ContentType,
-                    Level = level,
                     Summary = sunmary
                 });
             }
